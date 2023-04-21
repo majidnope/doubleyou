@@ -21,8 +21,12 @@ const Header = () => {
       navRef.current.style.zIndex = "1";
       navRef.current.style.width = "0";
       navRef.current.style.opacity = "0";
+      navRef.current.style.fontSize = "small";
+
       console.log(navRef.current.style.fontSize);
     } else {
+      navRef.current.style.fontSize = null;
+      navRef.current.style.color = null;
       navRef.current.style.position = null;
       navRef.current.style.right = null;
       navRef.current.style.zIndex = null;

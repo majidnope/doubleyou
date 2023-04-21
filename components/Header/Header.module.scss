@@ -60,3 +60,13 @@
         }
     }
 }
+
+@media (max-width: 992px) {
+    .header{
+        .naves{
+            a{
+                color: gray;
+            }
+        }
+    }
+}
