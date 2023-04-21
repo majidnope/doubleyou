@@ -1,4 +1,24 @@
 .header {
+    position: relative;
+    .menu {
+        width: 30px;
+        aspect-ratio: 1/1;
+        border-radius: 50%;
+        position: absolute;
+        z-index: 100;
+        right: 5%;
+        display: flex;
+        background-color: white;
+        align-items: center;
+        justify-content: center;
+        font-size: 5px;
+        box-shadow: 1px 5px 8px 0 #acacac5e;
+        transition: all 0.3s;
+        svg {
+            font-size: 14px;
+            color: #646363;
+        }
+    }
     height: 50px;
     background-color: rgb(255, 253, 253);
 
@@ -23,6 +43,8 @@
         }
     }
     .naves {
+        overflow: hidden;
+        transition: all 1s;
         margin-left: 50px;
         display: flex;
         align-items: center;
