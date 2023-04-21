@@ -1,0 +1,31 @@
+.recent {
+    grid-area: body;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    h3{
+        padding-left: 4%;
+        align-self: self-start;
+    }
+    .card {
+        scale: 0.8;
+        width: 100%;
+        height: calc(100% - 6px);
+        border-radius: 15px;
+        justify-content: center;
+
+        iframe {
+            transition: all 0.7s;
+            box-shadow: 2px 13px 20px 0 rgba(169, 169, 169, 0.3215686275);
+            border-radius: 15px;
+            height: 224px;
+            width: 100%;
+            &:hover {
+                scale: 1.1;
+                box-shadow: 2px 20px 20px 0px rgb(179 179 179 / 81%);
+            }
+        }
+    }
+}

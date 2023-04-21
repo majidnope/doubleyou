@@ -1,0 +1,40 @@
+.header {
+    height: 50px;
+    background-color: rgb(255, 253, 253);
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding-left: 20px;
+    grid-area: "header";
+
+    box-shadow: -1px -1px 9px 0 rgba(207, 207, 207, 0.6784313725);
+    .brand {
+        font-weight: 700;
+        font-size: large;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+        text-align: center;
+        img {
+            width: 35px;
+            object-fit: contain;
+        }
+    }
+    .naves {
+        margin-left: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 50px;
+        a {
+            font-weight: 500;
+            color: rgb(46, 46, 46);
+            text-decoration: none !important;
+            &:hover {
+                color: rgb(122, 122, 122);
+            }
+        }
+    }
+}
