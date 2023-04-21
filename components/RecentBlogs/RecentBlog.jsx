@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import style from "./RecentBlog.module.scss";
 import axios from "@/lib/axios";
-import { Grid } from "@mantine/core";
+import { Button, Card, Grid, Group, Image, Text } from "@mantine/core";
 
 const RecentBlog = ({ children }) => {
   const [blogs, setBlogs] = useState([]);
@@ -17,7 +17,9 @@ const RecentBlog = ({ children }) => {
     if (blogs.length > 0) {
       let data = blogs.map((id, index) => (
         <Grid.Col key={index} sx={{ margin: "0" }} span={12} sm={4}>
-          <div className={style.card}>d</div>
+          <div className={style.card}>
+            
+          </div>
         </Grid.Col>
       ));
       setCards(data);
