@@ -13,14 +13,14 @@ const Banner = () => {
 
   const [word, setWord] = useState([quotes[0]]);
 
-
   return (
     <div className={style.banner}>
       <div className={style.left}>
         <h3>DoubleYou</h3>
 
         <Input
-          sx={{ borderColor: "black", width: "60%" }}
+          wrapperProps={{className:style.wrap}}
+          sx={{ borderColor: "black" }}
           radius="xl"
           placeholder="Enter your email"
           rightSection={
