@@ -1,6 +1,6 @@
 import Banner from "@/components/Banner/Banner";
 import Recent from "@/components/Recent/Recent";
-import RecentBlog from "@/components/RecentBlogs/RecentBlog";
+import Blog from "@/components/Blogs/Blog";
 
 export default function Home() {
   return (
@@ -8,7 +8,7 @@ export default function Home() {
       <div className="main">
         <Banner />
         <div className="body">
-          <RecentBlog />
+          <Blog latest />
           <Recent />
         </div>
       </div>
