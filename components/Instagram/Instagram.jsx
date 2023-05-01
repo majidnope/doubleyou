@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
-import style from "./Recent.module.scss";
+import React, { Suspense, useEffect, useState } from "react";
+import style from "./Instagram.module.scss";
 import axios from "@/lib/axios";
 import { Grid } from "@mantine/core";
+import Script from "next/script";
 
-const Recent = ({ children }) => {
+const Instagram = ({ children }) => {
   const [videos, setVideos] = useState([]);
   const [cards, setCards] = useState([]);
 
@@ -18,14 +19,11 @@ const Recent = ({ children }) => {
       let data = videos.map((id, index) => (
         <Grid.Col key={index} sx={{ margin: "0" }} span={12} sm={4}>
           <div className={style.card}>
-            <iframe
-              src={`https://www.youtube.com/embed/${id}?rel=0&vq=hd720p600`}
-              title="YouTube video player"
-              frameborder="0"
-              className="full-w full-w"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowfullscreen
-            ></iframe>
+            <Suspense>
+              <blockquote class="instagram-media" data-instgrm-version="7">
+                <a href="https://www.instagram.com/p/ClGil5YMnNh/"></a>
+              </blockquote>
+            </Suspense>
           </div>
         </Grid.Col>
       ));
@@ -33,12 +31,13 @@ const Recent = ({ children }) => {
     }
   }, [videos]);
   return (
-    <div className={style.recent}>
-      <h3>Recent uploads</h3>
+    <div className={style.instagram}>
+      <h3>Instagram uploads</h3>
       <Grid sx={{ margin: "0", width: "100%", height: "100%" }}>{cards}</Grid>
+
+      <Script async defer src="//platform.instagram.com/en_US/embeds.js" />
     </div>
-    
   );
 };
 
-export default Recent;
+export default Instagram;
