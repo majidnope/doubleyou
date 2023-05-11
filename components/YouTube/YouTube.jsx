@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
-import style from "./Recent.module.scss";
+import style from "./YouTube.module.scss";
 import axios from "@/lib/axios";
 import { Grid } from "@mantine/core";
 
-const Recent = ({ children }) => {
+const YouTube = ({ latest }) => {
   const [videos, setVideos] = useState([]);
   const [cards, setCards] = useState([]);
 
   useEffect(() => {
-    axios.get(`/videos`).then((res) => {
+    axios.get(`/videos?media=yt`).then((res) => {
       console.log(res);
       setVideos(res.data);
     });
@@ -33,7 +33,7 @@ const Recent = ({ children }) => {
     }
   }, [videos]);
   return (
-    <div className={style.recent}>
+    <div className={style.youtube}>
       <h3>Recent uploads</h3>
       <Grid sx={{ margin: "0", width: "100%", height: "100%" }}>{cards}</Grid>
     </div>
@@ -41,4 +41,4 @@ const Recent = ({ children }) => {
   );
 };
 
-export default Recent;
+export default YouTube;

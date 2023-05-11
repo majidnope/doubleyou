@@ -1,7 +1,8 @@
 import Banner from "@/components/Banner/Banner";
-import Recent from "@/components/Recent/Recent";
+
 import Blog from "@/components/Blogs/Blog";
 import Instagram from "@/components/Instagram/Instagram";
+import YouTube from "@/components/YouTube/YouTube";
 
 export default function Home() {
   return (
@@ -10,8 +11,8 @@ export default function Home() {
         <Banner />
         <div className="body">
           <Blog latest />
-          <Recent />
-          <Instagram />
+          <YouTube latest />
+          <Instagram latest />
         </div>
       </div>
     </>

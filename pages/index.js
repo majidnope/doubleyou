@@ -1,5 +1,5 @@
 import Banner from "@/components/Banner/Banner";
-import Recent from "@/components/Recent/Recent";
+import Recent from "@/components/YouTube/YouTube";
 import { useRouter } from "next/router";
 
 export default function Home() {
@@ -10,7 +10,7 @@ export default function Home() {
   return (
     <>
       <div className="landing">
-        <h1>Welcome visiters</h1>
+        <h1>Welcome visitors</h1>
       </div>
     </>
   );
