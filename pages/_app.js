@@ -2,10 +2,12 @@ import Layout from "@/components/Layout/Layout";
 import "@/styles/globals.css";
 import { MantineProvider } from "@mantine/core";
 import Head from "next/head";
+import Script from "next/script";
 
 export default function App({ Component, pageProps }) {
   return (
     <>
+
       <Head>
         <title>DoubleYou</title>
         <meta name="description" content="Enjoy the knowledge" />

@@ -1,9 +1,14 @@
-import React from 'react'
+import Instagram from "@/components/Instagram/Instagram";
+import YouTube from "@/components/YouTube/YouTube";
+import React from "react";
 
 const works = () => {
   return (
-    <div>works</div>
-  )
-}
+    <>
+      <YouTube />
+      <Instagram />
+    </>
+  );
+};
 
-export default works
+export default works;

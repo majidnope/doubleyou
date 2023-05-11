@@ -5,49 +5,107 @@ import * as yup from "yup";
 
 import { Button, Grid, Input } from "@mantine/core";
 import axios from "@/lib/axios";
-import { Router } from "next/router";
+import { Router, useRouter } from "next/router";
+import { Stack } from "@mui/material";
 
 const validationSchema = yup.object({
-  email: yup.string("Enter a video id"),
+  videoId: yup.string("Enter a video id").length(4),
 });
 
-const Admin = ({ videos }) => {
-  const [cards, setCards] = useState([]);
+const Admin = ({ igVideos, ytVideos }) => {
+  const router = useRouter();
+  const [ytCards, setYtCards] = useState([]);
+  const [igCards, setIgCards] = useState([]);
+  const [selectID, setSelectID] = useState("");
+  const [loading, setLoading] = useState(false);
+  const deleteHandle = (id) => {
+    setLoading(true);
+    setSelectID(id);
+  };
+  useEffect(() => {
+    console.log(selectID);
+    if (selectID) {
+      axios
+        .delete(`/videos?videoId=${selectID}`)
+        .then((res) => {
+          console.log(res);
+          if (res.status == 200) {
+            setSelectID("");
+            router.replace(router.asPath);
+            if (res.data == "yt") {
+              axios.get(`/videos?media=yt`).then((res) => {
+                setYtCards(res.data);
+                setLoading(false);
+              });
+            } else if (res.data == "ig") {
+              axios.get(`/videos?media=ig`).then((res) => {
+                setIgCards(res.data);
+                setLoading(false);
+              });
+            }
+          } else {
+            router.replace(router.asPath);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, [selectID]);
+  const refreshData = () => {
+    router.replace(router.asPath);
+  };
+  useEffect(() => {
+    if (ytVideos.length > 0) {
+      setYtCards(ytVideos);
+    }
+  }, [ytVideos]);
 
   useEffect(() => {
-    if (videos.length > 0) {
-      let data = videos.map((id) => (
-        <Grid.Col sx={{ margin: "0" }} span={12} sm={4}>
-          <iframe
-            src={`https://www.youtube.com/embed/${id}?rel=0&vq=hd720p600`}
-            title="YouTube video player"
-            frameborder="0"
-            className="full-w full-w"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowfullscreen
-          ></iframe>
-        </Grid.Col>
-      ));
-      setCards(data);
+    if (igVideos.length > 0) {
+      setIgCards(igVideos);
     }
-  }, [videos]);
+  }, [igVideos]);
   const formik = useFormik({
     initialValues: {
-      videoId: "",
+      videoIdIG: "",
+      videoIdYT: "",
+      media: "",
     },
     validationSchema: validationSchema,
-    onSubmit: (values) => {
-      axios.post(`/admin/auth`, values);
+    onSubmit: async (values) => {
+      console.log(values);
+      try {
+        await axios.post(`/videos?media=${values?.media}`, values);
+        if (values.media == "yt") {
+          axios.get(`/videos?media=yt`).then((res) => {
+            setYtCards(res.data);
+          });
+        } else if (values.media == "ig") {
+          axios.get(`/videos?media=ig`).then((res) => {
+            setIgCards(res.data);
+          });
+        }
+      } catch (err) {
+        alert(err.response.data);
+      }
     },
   });
 
+  const setField = (media) => formik.setFieldValue("media", media);
   return (
-    <div>
-      <form onSubmit={formik.handleSubmit}>
+    <div style={{ padding: "30px" }}>
+      <h3>YouTube Videos</h3>
+      <form
+        onSubmit={(e) => {
+          formik.handleSubmit(e);
+          setField("yt");
+        }}
+      >
         <Input
-          name="videoId"
+          name="videoIdYT"
           label="Video ID"
-          value={formik.values.videoId}
+          value={formik.values.videoIdYT}
           onChange={formik.handleChange}
         />
 
@@ -55,8 +113,85 @@ const Admin = ({ videos }) => {
           ADD Video
         </Button>
       </form>
+      <Grid sx={{ margin: "0" }}>
+        {ytCards.map((id) => (
+          <Grid.Col sx={{ margin: "0" }} span={12} sm={4}>
+            <iframe
+              src={`https://www.youtube.com/embed/${id}?rel=0&vq=hd720p600`}
+              title="YouTube video player"
+              frameborder="0"
+              className="full-w full-w"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen
+            ></iframe>
+            <br />
+            <Stack direction="row" gap="20px" alignItems="center">
+              <Button
+                loading={selectID === id && loading}
+                onClick={() => deleteHandle(id)}
+                sx={{
+                  background: "#fd0046",
+                  ":hover": { background: "#f73b6e" },
+                }}
+              >
+                Delete
+              </Button>
+              <span>videoID: {id}</span>
+            </Stack>
+          </Grid.Col>
+        ))}
+      </Grid>
+      <h3>Instagram</h3>
+      <form
+        onSubmit={(e) => {
+          formik.handleSubmit(e);
+          setField("ig");
+        }}
+      >
+        <Input
+          name="videoIdIG"
+          label="Video ID"
+          value={formik.values.videoIdIG}
+          onChange={formik.handleChange}
+        />
 
-      <Grid sx={{ margin: "0" }}>{cards}</Grid>
+        <Button color="primary" variant="contained" fullWidth type="submit">
+          Add Video
+        </Button>
+      </form>
+      <Grid sx={{ margin: "0" }}>
+        {igCards.map((id) => (
+          <Grid.Col sx={{ margin: "0" }} span={12} sm={4}>
+            <iframe
+              className="instagram-media instagram-media-rendered"
+              id="instagram-embed-0"
+              src={`https://www.instagram.com/p/${id}/embed/?cr=1&amp;v=7&amp;wp=354&amp;rd=http%3A%2F%2Flocalhost%3A3000&amp;rp=%2Fhome#%7B%22ci%22%3A0%2C%22os%22%3A2524%2C%22ls%22%3A2222%2C%22le%22%3A2514%7D`}
+              allowtransparency="true"
+              allowfullscreen="true"
+              frameborder="0"
+              height="452"
+              data-instgrm-payload-id="instagram-media-payload-0"
+              scrolling="no"
+              // style="background-color: white; border-radius: 3px; border: 1px solid rgb(219, 219, 219); box-shadow: none; display: block; margin: 0px 0px 12px; min-width: 326px; padding: 0px;"
+              data-dashlane-frameid="795"
+            ></iframe>
+            <br />
+            <Stack direction="row" gap="20px" alignItems="center">
+              <Button
+                loading={selectID === id && loading}
+                onClick={() => deleteHandle(id)}
+                sx={{
+                  background: "#fd0046",
+                  ":hover": { background: "#f73b6e" },
+                }}
+              >
+                Delete
+              </Button>
+              <span>videoID: {id}</span>
+            </Stack>
+          </Grid.Col>
+        ))}
+      </Grid>
     </div>
   );
 };
@@ -72,16 +207,24 @@ export async function getServerSideProps(context) {
     ).data;
     if (profile) {
     }
-    const videos = (await axios.get("/videos")).data;
-    Object.keys(videos).forEach((key) => {
-      if (typeof videos[key] === "undefined") {
-        videos[key] = null; // set undefined properties to null
+    const ytVideos = (await axios.get("/videos?media=yt")).data;
+    Object.keys(ytVideos).forEach((key) => {
+      if (typeof ytVideos[key] === "undefined") {
+        ytVideos[key] = null; // set undefined properties to null
+      }
+    });
+
+    const igVideos = (await axios.get("/videos?media=ig")).data;
+    Object.keys(igVideos).forEach((key) => {
+      if (typeof igVideos[key] === "undefined") {
+        igVideos[key] = null; // set undefined properties to null
       }
     });
 
     return {
       props: {
-        videos,
+        ytVideos,
+        igVideos,
       },
     };
   } catch (err) {
