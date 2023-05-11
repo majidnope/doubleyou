@@ -6,6 +6,7 @@ import mongoose from "mongoose";
 const methods = {
   get: "GET",
   post: "POST",
+  delete: "DELETE",
 };
 
 export default async function handler(req, res) {
@@ -51,13 +52,40 @@ export default async function handler(req, res) {
         if (haveOne) {
           res.status(403).send("Video already exists ");
         } else {
-          Video.insertMany([req.body]);
+          if (req.query.media) {
+            switch (req.query.media) {
+              case "yt":
+                req.body.videoId = req.body.videoIdYT;
+                break;
+              case "ig":
+                req.body.videoId = req.body.videoIdIG;
+                break;
+              default:
+                break;
+            }
+
+            Video.insertMany([req.body]);
+          } else {
+            res.status(400).send("need media");
+          }
+
           res.status(200).send("Successfully added");
         }
         res.status(200).send("done");
       } else {
         res.status(402).send("no access");
       }
+    }
+  } else if (req.method == methods.delete) {
+    console.log("he deleted");
+    console.log(req.query);
+    if (req.query.videoId) {
+      const data = await Video.findOne(req.query);
+      await Video.deleteOne(req.query);
+      console.log(data.media);
+      res.status(200).send(data.media);
+    } else {
+      res.status(500).send("something went wrong");
     }
   }
 }
