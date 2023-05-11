@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import ReactDOM from "react-dom";
+
 import { useFormik } from "formik";
 import * as yup from "yup";
 
 import { Button, Grid, Input } from "@mantine/core";
 import axios from "@/lib/axios";
-import { Router, useRouter } from "next/router";
+import { useRouter } from "next/router";
 import { Stack } from "@mui/material";
 
 const validationSchema = yup.object({
@@ -22,35 +22,41 @@ const Admin = ({ igVideos, ytVideos }) => {
     setLoading(true);
     setSelectID(id);
   };
+
   useEffect(() => {
-    console.log(selectID);
-    if (selectID) {
-      axios
-        .delete(`/videos?videoId=${selectID}`)
-        .then((res) => {
-          console.log(res);
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "F8") {
+        router.push("/");
+      }
+    });
+  }, []);
+  useEffect(() => {
+    const fetchIn = async () => {
+      if (selectID) {
+        try {
+          const res = await axios.delete(`/videos?videoId=${selectID}`);
+
           if (res.status == 200) {
             setSelectID("");
-            router.replace(router.asPath);
-            if (res.data == "yt") {
+
+            if (res.data.media == "yt") {
               axios.get(`/videos?media=yt`).then((res) => {
                 setYtCards(res.data);
                 setLoading(false);
               });
-            } else if (res.data == "ig") {
+            } else if (res.data.media == "ig") {
               axios.get(`/videos?media=ig`).then((res) => {
                 setIgCards(res.data);
                 setLoading(false);
               });
             }
-          } else {
-            router.replace(router.asPath);
           }
-        })
-        .catch((err) => {
+        } catch (err) {
           console.log(err);
-        });
-    }
+        }
+      }
+    };
+    fetchIn();
   }, [selectID]);
   const refreshData = () => {
     router.replace(router.asPath);
@@ -74,7 +80,7 @@ const Admin = ({ igVideos, ytVideos }) => {
     },
     validationSchema: validationSchema,
     onSubmit: async (values) => {
-      console.log(values);
+    
       try {
         await axios.post(`/videos?media=${values?.media}`, values);
         if (values.media == "yt") {
@@ -87,7 +93,7 @@ const Admin = ({ igVideos, ytVideos }) => {
           });
         }
       } catch (err) {
-        alert(err.response.data);
+        console.log(err);
       }
     },
   });
@@ -200,13 +206,10 @@ export default Admin;
 
 export async function getServerSideProps(context) {
   try {
-    const profile = (
-      await axios.get("/auth?option=profile", {
-        headers: { token: context.req.cookies.token },
-      })
-    ).data;
-    if (profile) {
-    }
+    await axios.get("/auth?option=profile", {
+      headers: { token: context.req.cookies.token },
+    });
+
     const ytVideos = (await axios.get("/videos?media=yt")).data;
     Object.keys(ytVideos).forEach((key) => {
       if (typeof ytVideos[key] === "undefined") {

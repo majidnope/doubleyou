@@ -23,7 +23,7 @@ const Header = () => {
       navRef.current.style.opacity = "0";
       navRef.current.style.fontSize = "small";
 
-      console.log(navRef.current.style.fontSize);
+
     } else {
       navRef.current.style.fontSize = null;
       navRef.current.style.color = null;
@@ -39,7 +39,7 @@ const Header = () => {
   }, [matches]);
 
   let handleClick = () => {
-    console.log(menuRef.current.style.boxShadow);
+
     menuRef.current.style.boxShadow = "0px 0px 0px 0 #acacac5e";
     if (active) {
       navRef.current.style.gap = "0";
@@ -51,12 +51,12 @@ const Header = () => {
 
       navRef.current.style.gap = "50px";
     }
-    console.log("down");
+
     setActive((ac) => !ac);
 
     setTimeout(() => {
       menuRef.current.style.boxShadow = "1px 5px 8px 0 #acacac5e";
-      console.log("back");
+
     }, 300);
   };
   return (

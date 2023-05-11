@@ -9,7 +9,7 @@ const YouTube = ({ latest }) => {
 
   useEffect(() => {
     axios.get(`/videos?media=yt`).then((res) => {
-      console.log(res);
+
       setVideos(res.data);
     });
   }, []);
