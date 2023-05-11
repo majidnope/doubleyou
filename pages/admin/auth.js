@@ -19,7 +19,7 @@ const validationSchema = yup.object({
 });
 
 const Auth = () => {
-  console.log("sd");
+
   const nav = useRouter();
   const formik = useFormik({
     initialValues: {
@@ -41,7 +41,7 @@ const Auth = () => {
           nav.push("/admin");
         }
       } catch ({ response }) {
-        console.log();
+  
         if (response.status == 401) alert(response.data.message);
       }
     },

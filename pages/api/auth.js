@@ -57,7 +57,7 @@ export default async function handler(req, res) {
         res.status(204).json({ message: "no user " });
       }
     } else if (req.method == "GET" && req.query?.option == "profile") {
-      console.log(cookiesObject);
+
       if (cookiesObject.token) {
         const verified = jwt.verify(cookiesObject.token, process.env.JWT_KEY);
         if (verified) {

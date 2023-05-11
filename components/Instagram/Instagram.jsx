@@ -9,7 +9,7 @@ const Instagram = ({ children }) => {
 
   useEffect(() => {
     axios.get(`/videos?media=ig`).then((res) => {
-      console.log(res);
+
       if (res.data.length > 0) {
         let data = res.data.map((id, index) => (
           <Grid.Col key={index} sx={{ margin: "0" }} span={12} sm={4}>

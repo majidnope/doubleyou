@@ -12,7 +12,7 @@ const Blog = ({ latest }) => {
 
   useEffect(() => {
     axios.get(`/blogs?latest=${latest}`).then((res) => {
-      console.log(res);
+   
       setBlogs(res.data);
     });
   }, []);

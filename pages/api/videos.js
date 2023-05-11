@@ -45,11 +45,13 @@ export default async function handler(req, res) {
       res.status(400).send("need media query");
     }
   } else if (req.method == methods.post) {
+    debugger;
     if (cookiesObject.token) {
       const verified = jwt.verify(cookiesObject.token, process.env.JWT_KEY);
       if (verified) {
-        const haveOne = await Video.findOne({ videoId: req.body.videoId });
-        if (haveOne) {
+        const haveOne = await Video.find({ videoId: req.body.videoId });
+      
+        if (haveOne.length > 0) {
           res.status(403).send("Video already exists ");
         } else {
           if (req.query.media) {
@@ -64,32 +66,31 @@ export default async function handler(req, res) {
                 break;
             }
 
-            Video.insertMany([req.body]);
+            await Video.insertMany([req.body]);
+            res.status(200).send("successfully added");
           } else {
             res.status(400).send("need media");
           }
-
-          res.status(200).send("Successfully added");
         }
-        res.status(200).send("done");
       } else {
         res.status(402).send("no access");
       }
     }
   } else if (req.method == methods.delete) {
-    console.log("he deleted");
-    console.log(req.query);
+    const id = req.query.videoId;
+
     try {
-      if (req.query) {
+      if (id) {
         const data = await Video.findOne(req.query);
-        await Video.deleteOne(req.query);
-        console.log(data.media);
-        res.status(200).send(data.media);
+        await Video.deleteOne({ videoId: id });
+;
+        res.status(200).json({ media: data.media });
       } else {
-        res.status(500).send("something went wrong");
+        res.status(504).json({ message: "something went wrong" });
       }
     } catch (err) {
       console.log(err);
+      res.status(500).json({ message: "something went wrong" });
     }
   }
 }
