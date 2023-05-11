@@ -26,7 +26,7 @@ const Admin = ({ igVideos, ytVideos }) => {
   useEffect(() => {
     window.addEventListener("keydown", (e) => {
       if (e.key === "F8") {
-        router.push("/");
+        router.push("/home");
       }
     });
   }, []);
