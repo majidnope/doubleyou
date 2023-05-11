@@ -58,9 +58,7 @@ const Admin = ({ igVideos, ytVideos }) => {
     };
     fetchIn();
   }, [selectID]);
-  const refreshData = () => {
-    router.replace(router.asPath);
-  };
+  
   useEffect(() => {
     if (ytVideos.length > 0) {
       setYtCards(ytVideos);
@@ -80,7 +78,6 @@ const Admin = ({ igVideos, ytVideos }) => {
     },
     validationSchema: validationSchema,
     onSubmit: async (values) => {
-    
       try {
         await axios.post(`/videos?media=${values?.media}`, values);
         if (values.media == "yt") {
