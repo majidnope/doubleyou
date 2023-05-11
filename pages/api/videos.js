@@ -79,13 +79,17 @@ export default async function handler(req, res) {
   } else if (req.method == methods.delete) {
     console.log("he deleted");
     console.log(req.query);
-    if (req.query.videoId) {
-      const data = await Video.findOne(req.query);
-      await Video.deleteOne(req.query);
-      console.log(data.media);
-      res.status(200).send(data.media);
-    } else {
-      res.status(500).send("something went wrong");
+    try {
+      if (req.query) {
+        const data = await Video.findOne(req.query);
+        await Video.deleteOne(req.query);
+        console.log(data.media);
+        res.status(200).send(data.media);
+      } else {
+        res.status(500).send("something went wrong");
+      }
+    } catch (err) {
+      console.log(err);
     }
   }
 }
