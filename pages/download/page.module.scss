@@ -1,0 +1,26 @@
+.form {
+    position: absolute;
+    top: 75%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    form {
+        display: flex;
+        gap: 13px;
+        flex-direction: column;
+        align-items: center;
+        input {
+            font-family: "Lexend";
+            width: 194px;
+            height: 31px;
+            box-shadow: 0 0.8px 0 0 #00f0ff;
+            border: none;
+            background-color: black;
+            outline: none;
+            color: white;
+            font-size: small;
+            padding-left: 10px;
+            padding-right: 10px;
+            border-radius: 14px;
+        }
+    }
+}
