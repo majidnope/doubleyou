@@ -23,10 +23,15 @@ const Page = () => {
       return;
     }
     setLoading(true);
-    await axios.post("/subscribe", form);
+    try {
+      await axios.post("/subscribe", form);
+      await axios.post("/email", form);
+    } catch (err) {
+      console.log(err);
+    }
     setLoading(false);
     alert("subscribed");
-    nav.push("/plugin");
+    nav.push("/");
   };
   const onChange = (e) => {
     setForm((fil) => ({ ...fil, [e.target.name]: e.target.value }));
