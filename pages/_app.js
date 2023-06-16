@@ -9,7 +9,7 @@ export default function App({ Component, pageProps }) {
     <>
       <Head>
         <title>DoubleYou</title>
-        <meta name="description" content="Enjoy the knowledge" />
+        <meta name="description" content="Manifest your ideas" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
