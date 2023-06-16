@@ -41,7 +41,7 @@ export default async function handler(req, res) {
       pass: process.env.APP_PASS,
     },
 
-    //   secure: true,
+      secure: true,
   });
 
   try {
