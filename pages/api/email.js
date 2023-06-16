@@ -1,5 +1,5 @@
 import nodemailer from "nodemailer";
-import fs from "node:fs/promises";
+
 export default async function handler(req, res) {
   console.log("0000----------------", req.body);
 
@@ -8,18 +8,28 @@ export default async function handler(req, res) {
     to: req.body.email,
     subject: `Adobe After Effects Plugins`,
     // text: "Tata bye bye",
-    html: `<!DOCTYPE html>
-    <html lang="en">
+    html: `<div align="center">
+    <h4>Hello, ${req.body.name}</h4>
+    <h3 align="center">
+    One more step! Click the button below to download </h3>
+    <a href="https://www.doubleyou.site/download/verify/${req.body.email}">
+    <button  style="border: none;
+    outline: none;
+    background: #04d6ff;
+    width: 145px;
+    height: 41px;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;">
+    GET PLUGINS
+    </button>
+    </a>
     
-    <head>
-        <!-- <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet"> -->
-        
-    
-    </body>
-    
-    </html>`,
+    <p align="center">
+    Contact me on Instagram <a target="_blank" href="https://www.instagram.com/thewahid.me/">@thewahid.me</a>
+
+    </p>
+    </div>`,
   };
 
   const mailer = nodemailer.createTransport({
