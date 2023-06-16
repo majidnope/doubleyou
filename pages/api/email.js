@@ -7,7 +7,6 @@ export default async function handler(req, res) {
     from: "xxdoubleyou@gmail.no-reply.com",
     to: req.body.email,
     subject: `Adobe After Effects Plugins`,
-    // text: "Tata bye bye",
     html: `<div align="center">
     <h4>Hello, ${req.body.name}</h4>
     <h3 align="center">
@@ -41,15 +40,15 @@ export default async function handler(req, res) {
       pass: process.env.APP_PASS,
     },
 
-      secure: true,
+    secure: true,
   });
 
-  try {
-    mailer.sendMail(template, (err) => {
+  mailer.sendMail(template, (err) => {
+    if (err) {
       console.log(err);
-    });
-    res.status(200).send("Successfully send");
-  } catch (err) {
-    res.status(200).send("Successfully send");
-  }
+      res.status(500).send(err);
+    } else {
+      res.status(200).send("Successfully send");
+    }
+  });
 }
